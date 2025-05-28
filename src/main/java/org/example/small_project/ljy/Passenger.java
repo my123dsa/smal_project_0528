@@ -6,6 +6,7 @@ public class Passenger {
     protected int cash;
     protected int birth;  // YYYYMMDD
     protected String type;
+    protected String state;
 
     public Passenger(String id, int cash, int birth) {
         this.id = id;
@@ -19,6 +20,14 @@ public class Passenger {
 
     public void setType(String type){
         this.type = type;
+    }
+
+    public String getState(){
+        return this.state;
+    }
+
+    public void setState(String state){
+        this.state = state;
     }
 
     public boolean pay(int amount) {

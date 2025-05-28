@@ -7,4 +7,6 @@ public interface Vehicle {
     boolean canBoard();
     void getIn(Passenger p);
     void getOut(Passenger p);
+    int getPassengers();
+    int getRevenue();
 }

@@ -10,7 +10,7 @@ public class Policy {
     private int minSeniorAge = 59;
     private double babyDiscount = 0.75;
     private double studentDiscount = 0.1;
-    private double seniorDiscount = 0.3;
+    private double seniorDiscount = 0.25;
 
     private Policy() {}
 

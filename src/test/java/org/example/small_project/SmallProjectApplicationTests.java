@@ -54,19 +54,36 @@ class SmallProjectApplicationTests {
     @Test
     void testBabyDiscount() {
         // 수정
-        Passenger baby = new Passenger("baby", 5000, 20240428); // 5세
+        Passenger baby = new Passenger("baby", 5000, 20240428); // baby
         Policy.getInstance().setPolicy(baby);
         int before = baby.getCash();
 
         boardingService.board(baby, bus);
 
-        int expectedFare = (int) (1000 * (1 - 0.75)); // 90% 할인
+        int expectedFare = (int) (1000 * (1 - 0.75)); // 75% 할인
         System.out.println(expectedFare);
         assertEquals("탑승", baby.getState());
         assertEquals(before - expectedFare, baby.getCash());
         assertEquals(expectedFare, bus.getRevenue());
     }
 
+
+    // Test senior discount
+    @Test
+    void testSeniorDiscount() {
+        // 수정
+        Passenger senior = new Passenger("senior", 10000, 19500428); // baby
+        Policy.getInstance().setPolicy(senior);
+        int before = senior.getCash();
+
+        boardingService.board(senior, bus);
+
+        int expectedFare = (int) (1000 * (1 - 0.25)); // 25% 할인
+        System.out.println(expectedFare);
+        assertEquals("탑승", senior.getState());
+        assertEquals(before - expectedFare, senior.getCash());
+        assertEquals(expectedFare, bus.getRevenue());
+    }
 
     // Max passenger
     @Test
@@ -81,7 +98,7 @@ class SmallProjectApplicationTests {
         // Then
         assertEquals(null, p.getState());
         assertEquals(0, smallBus.getPassengers());
-        assertEquals(5000, p.getCash()); // 돈도 안 빠짐
+        assertEquals(5000, p.getCash()); // 돈 안 빠짐
     }
 
     @Test

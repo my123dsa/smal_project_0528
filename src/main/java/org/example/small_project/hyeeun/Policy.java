@@ -1,5 +1,7 @@
 package org.example.small_project.hyeeun;
 
+import org.example.small_project.ljy.Passenger;
+
 public class Policy {
     private static Policy instance = new Policy();
 

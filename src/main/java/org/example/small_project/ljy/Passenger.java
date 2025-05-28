@@ -22,6 +22,10 @@ public class Passenger {
         this.type = type;
     }
 
+    public String getType(){
+        return type;
+    }
+
     public String getState(){
         return this.state;
     }

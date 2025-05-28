@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,14 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 class SmallProjectApplicationTests {
 
-    private Bus bus;
+    private Bus bus, bus2, bus3, bus4, bus5;
     private Subway subway;
     private BoardingService boardingService;
 
     @BeforeAll
      void setUp() {
-        bus = new Bus("Bus-01", 50, 1000);
-        subway = new Subway("Sub=01", 1000, 1500);
         boardingService = new BoardingService();
     }
 
@@ -34,6 +31,7 @@ class SmallProjectApplicationTests {
     @Test
     void testPassengerBoardsBusSuccessfully() {
         // Given
+        Bus bus = new Bus("Bus-01", 50, 1000);
         Passenger p = new Passenger("s1", 5000, 20150909);
         Policy.getInstance().setPolicy(p);
         int beforeCash = p.getCash();
@@ -53,18 +51,19 @@ class SmallProjectApplicationTests {
     @Test
     void testPassengerBoardsBusFailed() {
         // Given
+        Bus bus2 = new Bus("Bus-02", 50, 1000);
         Passenger p = new Passenger("s2", 0, 20150909);
         Policy.getInstance().setPolicy(p);
         int beforeCash = p.getCash();
 
         // When
-        boardingService.board(p, bus);
+        boardingService.board(p, bus2);
 
         // Then
         assertEquals(null, p.getState());
-        assertEquals(0, bus.getPassengers());
+        assertEquals(0, bus2.getPassengers());
         assertTrue(p.getCash() == beforeCash);
-        assertEquals(0, bus.getRevenue());
+        assertEquals(0, bus2.getRevenue());
     }
 
 
@@ -72,17 +71,18 @@ class SmallProjectApplicationTests {
     @Test
     void testBabyDiscount() {
         // 수정
+        Bus bus3 = new Bus("Bus-03", 50, 1000);
         Passenger baby = new Passenger("baby", 5000, 20240428); // baby
         Policy.getInstance().setPolicy(baby);
         int before = baby.getCash();
 
-        boardingService.board(baby, bus);
+        boardingService.board(baby, bus3);
 
         int expectedFare = (int) (1000 * (1 - 0.75)); // 75% 할인
         System.out.println(expectedFare);
         assertEquals("탑승", baby.getState());
         assertEquals(before - expectedFare, baby.getCash());
-        assertEquals(expectedFare, bus.getRevenue());
+        assertEquals(expectedFare, bus3.getRevenue());
     }
 
 
@@ -90,17 +90,18 @@ class SmallProjectApplicationTests {
     @Test
     void testSeniorDiscount() {
         // 수정
+        Bus bus4 = new Bus("Bus-03", 50, 1000);
         Passenger senior = new Passenger("senior", 10000, 19500428); // baby
         Policy.getInstance().setPolicy(senior);
         int before = senior.getCash();
 
-        boardingService.board(senior, bus);
+        boardingService.board(senior, bus4);
 
         int expectedFare = (int) (1000 * (1 - 0.25)); // 25% 할인
         System.out.println(expectedFare);
         assertEquals("탑승", senior.getState());
         assertEquals(before - expectedFare, senior.getCash());
-        assertEquals(expectedFare, bus.getRevenue());
+        assertEquals(expectedFare, bus4.getRevenue());
     }
 
     // Max passenger
@@ -123,18 +124,20 @@ class SmallProjectApplicationTests {
     @Test
     void testPassengerBoardsBusSubwaySuccessfully() {
         // Given
+        Bus bus5 = new Bus("Bus-03", 50, 1000);
+        Subway subway = new Subway("Sub-01", 1000, 1500);
         Passenger p = new Passenger("s3", 5000, 20150909);
         Policy.getInstance().setPolicy(p);
         int beforeCash = p.getCash();
 
         // When
-        boardingService.board(p, bus);
+        boardingService.board(p, bus5);
 
         // Then
         assertEquals("탑승", p.getState());
-        assertEquals(1, bus.getPassengers());
+        assertEquals(1, bus5.getPassengers());
         assertTrue(p.getCash() < beforeCash);
-        assertEquals((int)(1000 * (1 - 0.1)), bus.getRevenue()); // 청소년 10% 할인
+        assertEquals((int)(1000 * (1 - 0.1)), bus5.getRevenue()); // 청소년 10% 할인
 
         // when
         beforeCash = p.getCash();

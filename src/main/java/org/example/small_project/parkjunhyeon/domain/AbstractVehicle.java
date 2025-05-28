@@ -35,13 +35,16 @@ abstract class AbstractVehicle implements Vehicle {
     }
 
     @Override
-    public void getIn(Passenger p) {
+    public Boolean getIn(Passenger p) {
         fare = (int)(fare * (1 - Policy.getInstance().getDiscountRate(p.getType())));
 
         if (p.pay(fare)) {
             passengers++;
             revenue += fare;
             p.setState("탑승");
+            return true;
+        }else{
+            return false;
         }
     }
 

@@ -5,7 +5,7 @@ import org.example.small_project.ljy.Passenger;
 public interface Vehicle {
     String getVehicleNo();
     boolean canBoard();
-    void getIn(Passenger p);
+    Boolean getIn(Passenger p);
     void getOut(Passenger p);
     int getPassengers();
     int getRevenue();

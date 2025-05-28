@@ -45,8 +45,26 @@ class SmallProjectApplicationTests {
         assertEquals("탑승", p.getState());
         assertEquals(1, bus.getPassengers());
         assertTrue(p.getCash() < beforeCash);
-        System.out.println();
         assertEquals((int)(1000 * (1 - 0.1)), bus.getRevenue()); // 청소년 10% 할인
+    }
+
+
+    // Board failed: less money
+    @Test
+    void testPassengerBoardsBusFailed() {
+        // Given
+        Passenger p = new Passenger("s2", 0, 20150909);
+        Policy.getInstance().setPolicy(p);
+        int beforeCash = p.getCash();
+
+        // When
+        boardingService.board(p, bus);
+
+        // Then
+        assertEquals(null, p.getState());
+        assertEquals(0, bus.getPassengers());
+        assertTrue(p.getCash() == beforeCash);
+        assertEquals(0, bus.getRevenue()); 
     }
 
 

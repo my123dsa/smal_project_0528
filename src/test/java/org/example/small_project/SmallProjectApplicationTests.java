@@ -64,7 +64,7 @@ class SmallProjectApplicationTests {
         assertEquals(null, p.getState());
         assertEquals(0, bus.getPassengers());
         assertTrue(p.getCash() == beforeCash);
-        assertEquals(0, bus.getRevenue()); 
+        assertEquals(0, bus.getRevenue());
     }
 
 
@@ -117,6 +117,34 @@ class SmallProjectApplicationTests {
         assertEquals(null, p.getState());
         assertEquals(0, smallBus.getPassengers());
         assertEquals(5000, p.getCash()); // 돈 안 빠짐
+    }
+
+    // Transfer
+    @Test
+    void testPassengerBoardsBusSubwaySuccessfully() {
+        // Given
+        Passenger p = new Passenger("s3", 5000, 20150909);
+        Policy.getInstance().setPolicy(p);
+        int beforeCash = p.getCash();
+
+        // When
+        boardingService.board(p, bus);
+
+        // Then
+        assertEquals("탑승", p.getState());
+        assertEquals(1, bus.getPassengers());
+        assertTrue(p.getCash() < beforeCash);
+        assertEquals((int)(1000 * (1 - 0.1)), bus.getRevenue()); // 청소년 10% 할인
+
+        // when
+        beforeCash = p.getCash();
+        boardingService.board(p, subway);
+
+        // Then
+        assertEquals("탑승", p.getState());
+        assertEquals(1, subway.getPassengers());
+        assertTrue(p.getCash() < beforeCash);
+        assertEquals((int)(1500 * (1 - 0.1)), subway.getRevenue()); // 청소년 10% 할인
     }
 
     @Test
